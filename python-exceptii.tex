@@ -1,0 +1,261 @@
+\documentclass[30pt,landscape]{foils}
+\usepackage[cp1250]{inputenc}
+%\usepackage[romanian]{babel}
+\usepackage{color}
+\usepackage{geometry}
+\geometry{headsep=3ex,hscale=0.9}
+\usepackage{hyperref}
+\usepackage{pause}
+\usepackage{background}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{pp4link}
+\usepackage{mpmulti}
+\usepackage{graphicx}
+
+\definecolor{Lopagecolor}{cmyk}{0.03,0,0.02,0}
+\definecolor{Hipagecolor}{cmyk}{0.24,0,0.06,0}
+\vpagecolor[Lopagecolor]{Hipagecolor}
+\definecolor{Textcolor}{cmyk}{0,0,0,1}
+% currently black (duh)
+\definecolor{Highlight}{cmyk}{0,0.89,0.94,0.1}
+% currently BrickRed
+\definecolor{Dullness}{cmyk}{0.86,0,0.30,0}
+% currently Aquamarine
+\definecolor{Emphcolor}{cmyk}{0.05,1,0,0}
+% currently Plum
+\definecolor{TwoColor}{cmyk}{0,0,0,1}
+\pausecolors{TwoColor}{Textcolor}{Highlight}
+\newcommand\Text{\color{Textcolor}}
+\newcommand\High{\color{Highlight}}
+\newcommand\Dull{\color{Dullness}}
+\newcommand\Emph{\color{Emphcolor}}
+\newcommand\ToCo{\color{TwoColor}}
+\renewcommand\Black{\color{black}}
+\definecolor{Headcolor}{cmyk}{0.92,0,0.59,0.25}
+\renewcommand\normalcolor{\color{Headcolor}}
+
+\author{costel.aldea@unitbv.ro}
+\MyLogo{costel.aldea@unitbv.ro}
+\begin{document}
+\foilhead{Erori \c si tratarea excep\c tiilor}
+\begin{center}
+Python
+\end{center}
+
+\foilhead{Tipuri de erori}
+Python deosebe\c ste dou\u a tipuri de erori:
+\begin{itemize}
+	\item erori de sintax\u a 
+	\item excep\c tii
+\end{itemize}
+
+\foilhead{Erori de Sintax\u a}
+\small
+\indent Erorile de sintax\u a (erorile de parsare) sunt probabil cele mai des \^ int\^ alnite erori \^ in faza de \^ inv\u a\c tare a limbajului Python.\\
+\indent Pentru a intelege gre\c seala, trebuie s\u a urmari\c ti mesajele date de parser:
+\begin{verbatim}
+>>> while True print 'Hello world'
+  File "<stdin>", line 1, in ?
+    while True print 'Hello world'
+                   ^
+SyntaxError: invalid syntax
+\end{verbatim}
+
+\foilhead{Excep\c tii}
+\footnotesize
+De exemplu, dac\u a avem \^ intr-un fi\c sier \textit{ex1.py}:
+\begin{verbatim}
+a = int(raw_input("n="))
+print b;
+\end{verbatim}
+Când execut\u am scriptul, vom ob\c tine \^ in linia de comand\u a:
+\begin{verbatim}
+>>> execfile("ex1.py")
+n=6
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "ex1.py", line 2, in <module>
+  	print b;
+NameError: name 'b' is not defined
+\end{verbatim}
+
+\foilhead{Tratarea Excep\c tiilor}
+Python permite prinderea si tratarea exceptiilor. Pentru clase de exceptsii, se specifica un bloc \textit{try-except}, specificand in clauza \textit{except} numele unei clase particulare, care va prinde si trata orice exceptie de tipul specificat sau de tipuri derivate din cel specificat. \\
+\indent De exemplu, sa presupunem ca dorim sa citim o valoare numerica de la tastatura si sa nu lasam utilizatorul sa treaca mai departe pana nu introduce o valoare valida. Astfel, am putea folosi un bloc try pentru a prinde exceptia si a notifica userul ca a introdus o valoare invalida.
+
+\foilhead{Exemplu}
+\begin{verbatim}
+>>> while True:
+...     try:
+...         x = int(raw_input("Please enter a number: "))
+...         break
+...     except ValueError:
+...         print "Oops!  That was no valid number.  Try again..."
+...
+\end{verbatim}
+
+\foilhead{Instruc\c tiunea try}
+Instruc\c tiunea \textit{try} se execut\u a astfel:
+\begin{itemize}
+	\item Prima dat\u a se execut\u a bucata de cod dintre cuvintele cheie \textit{try} \c si \textit{except}. 
+	\item Dac\u a nu apare nici o excep\c tie, clauza \textit{except} nu se execut\u a, iar instruc\c tiunea \textit{try} se termin\u a.
+	\item Dac\u a o excep\c tie apare \^ in timpul execu\c tiei clauzei \textit{try}, restul clauzei nu se mai execut\u a \c si se sare mai jos, \^ in zona clauzelor \textit{except}, unde se caut\u a numele excep\c tiei de sus \^ in jos. Dac\u a numele se potriveste cu cel specificat \^ in clauza \textit{except}, atunci se execut\u a instruc\c tiunile de pe acea clauza \c si apoi se continu\u a execu\c tia programului dup\u a blocul \textit{try}.
+	\item Dac\u a o exceptie apare \^ in timpul execu\c tiei clauzei \textit{try}, dar numele nu se potrive\c ste cu cel specificat \^ in clauza \textit{except}, atunci excep\c tia se paseaz\u a blocurilor \textit{try} exterioare; dac\u a nu se g\u aseste nici un bloc try care s\u a prind\u a excep\c tia, atunci execu\c tia programului se opre\c ste din cauza excep\c tiei netratate.
+\end{itemize}
+\indent O instruc\c tiune \textit{try} poate avea mai multe clauze \textit{except}, pentru a trata diferit excep\c tii diferite, \^ insa \^ intotdeauna, un singur handler va fi executat. Chiar dac\u a exist\u a mai multe clauze \textit{except}, execu\c tia acestora poate fi realizat\u a doar de excep\c tii care apar \^ in clauza \textit{try}, nu \^ in alte clauze \textit{except} ale acelui bloc \textit{try}. O clauz\u a \textit{except} poate specifica excep\c tii multiple, folosind tupluri, astfel:
+\begin{verbatim}
+... except (RuntimeError, TypeError, NameError):
+...     pass
+\end{verbatim}
+\indent Ultima clauz\u a \textit{except} poate s\u a nu aiba numele unei excep\c tii \c si \^ in acest caz va prinde orice excep\c tie care nu a fost prins\u a de clauzele \textit{except} anterioare. Aceast\u a solu\c tie trebuie folosit\u a \^ in situa\c tii extreme deoarece poate duce la gre\c seli mari de programare.\\
+\indent De asemenea, \^ in clauza \textit{except} se poate arunca excep\c tia prins\u a c\u atre blocuri \textit{try} superioare, folosind instruc\c tiunea \textit{raise}, pentru a fi tratat\u a la un nivel mai \^ inalt. De exemplu, se poate folosi o clauz\u a \textit{except} generic\u a pentru a prinde orice excep\c tie, se va afi\c sa tipul erorii \c si apoi se va arunca excep\c tia la nivelele superioare, pentru a fi tratat\u a.
+
+\foilhead{Exemplu}
+\begin{verbatim}
+import sys
+
+try:
+    f = open('myfile.txt')
+    s = f.readline()
+    i = int(s.strip())
+except IOError as (errno, strerror):
+    print "I/O error({0}): {1}".format(errno, strerror)
+except ValueError:
+    print "Valoarea citita nu a fost intreaga."
+except:
+    print "Eroare neasteptata:", sys.exc_info()[0]
+    raise
+\end{verbatim}
+
+\foilhead{Clauza else}
+\indent Instruc\c tiunea \textit{try-except} are o clauz\u a optional\u a \textit{else}, care trebuie plasat\u a dup\u a toate clauzele \textit{except} asociate. Este folosit\u a pentru a executa cod care trebuie executat chiar dac\u a clauza \textit{try} nu arunc\u a vreo excep\c tie. De exemplu:
+\begin{verbatim}
+for arg in sys.argv[1:]:
+    try:
+        f = open(arg, 'r')
+    except IOError:
+        print 'Nu se poate deschide', arg
+    else:
+        print arg, 'are', len(f.readlines()), 'linii'
+        f.close()
+\end{verbatim}
+
+\foilhead{Aruncarea Excep\c tiilor}
+\indent Instruc\c tiunea \textit{raise} permite programatorului s\u a for\c teze aruncarea unei excep\c tii. De exemplu:
+\begin{verbatim}
+>>> raise NameError('EroareaMea')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+NameError: EroareaMea
+\end{verbatim}
+\indent Argumentul dat instruc\c tiunii \textit{raise} este clasa excep\c tiei sau instan\c ta clasei excep\c tiei care se va arunca. \\
+\indent Daca dori\c ti s\u a determina\c ti c\u a o excep\c tie a fost aruncat\u a, dar nu dori\c ti s\u a o trata\c ti, pute\c ti folosi instructiunea \textit{raise} pentru a rearunca excep\c tia, astfel:
+\begin{verbatim}
+>>> try:
+...     raise NameError('EroareaMea')
+... except NameError:
+...     print 'S-a aruncat o exceptie!'
+...     raise
+...
+S-a aruncat o exceptie!
+Traceback (most recent call last):
+  File "<stdin>", line 2, in ?
+NameError: EroareaMea
+\end{verbatim}
+
+\foilhead{Excep\c tii Build-In}
+\begin{itemize}
+	\item Excep\c tiile ar trebui s\u a fie instan\c te ale unei clase. Excep\c tiile sunt definite \^ in modulul \textit{exceptions}. Acest modul nu trebuie importat implicit: excep\c tiile sunt disponibile \^ in namespace-ul implicit, precum \c si \^ in modulul \textit{exceptions}.\\
+	\item Excep\c tiile build-in pot fi generate de interpretor sau de func\c tiile build-in. Cu excep\c tia cazurilor men\c tionate, excep\c tiile au o valoare asociat\u a, care indic\u a cauza detaliat\u a a erorii. Aceast\u a valoare ar putea fi un \c sir de caractere sau un tuplu de informa\c tii (de exemplu un cod de eroare \c si un string cu explica\c tii suplimentare). Valoarea asociat\u a este al doilea argument când se arunc\u a o excep\c tie. Dac\u a o clas\u a de excep\c tii este derivat\u a din clasa de baz\u a \textbf{BaseException}, valoarea asociat\u a este precizat\u a \^ in atributul \textit{args}.\\
+	\item Oricine poate arunca excep\c tii \c si clasele de excep\c tii deja definite pot fi derivate de c\u atre programatori. Se recomand\u a s\u a nu se deriveze direct din \textbf{BaseException}, ci din \textbf{Exception}.
+\end{itemize}
+
+\foilhead{Excep\c tii Definite de Utilizator}
+Programele pot avea propriile excep\c tii definite, prin crearea de clase pentru excep\c tii. Orice clas\u a de excep\c tii trebuie derivat\u a direct sau indirect din clasa \textit{Exception}. De exemplu:
+\begin{verbatim}
+>>> class ExceptiaMea(Exception):
+...     def __init__(self, value):
+...         self.value = value
+...     def __str__(self):
+...         return repr(self.value)
+...
+>>> try:
+...     raise ExceptiaMea(2*2)
+... except ExceptiaMea as e:
+...     print 'S-a aruncat exceptia mea, cu valoarea:', e.value
+...
+S-a aruncat exceptia mea, cu valoarea: 4
+>>> raise ExceptiaMea('oops!')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+__main__.ExceptiaMea: 'oops!'
+\end{verbatim}
+
+\begin{itemize}
+	\item \^ in exemplul de mai sus, constructorul implicit \verb|__init__()| al clasei \textit{Exception} a fost suprascris. Noul constructor prime\c ste \c si atributul \textit{value}, \^ inlocuind comportamentul implicit prin crearea atributului \textit{args}.
+	\item Clasele de excep\c tii pot fi definite ca orice alt\u a clas\u a, dar este bine s\u a se p\u astreze simple, oferind doar atribute care s\u a dea detalii despre eroarea care s-a aruncat. 
+	\item Când se creeaz\u a un modul pentru erori, este indicat s\u a se creeze o clas\u a de baz\u a de excep\c tii si pentru fiecare excep\c tie care poate aparea, s\u a se creeze o subclas\u a din aceasta
+\end{itemize}
+
+\foilhead{Definirea Ac\c tiunilor de Clean-Up}
+\begin{itemize}
+	\item Instruc\c tiunea \textit{try} mai are \^ inc\u a o clauz\u a optional\u a (\textit{finally}) care poate fi folosit\u a pentru a defini opera\c tii de clean-up, care trebuie s\u a se execute indiferent dac\u a a avut sau nu loc o excep\c tie.
+	\item O clauz\u a \textit{finally} se execut\u a mereu \^ inante de p\u ar\u asirea instruc\c tiunii \textit{try}, indiferent dac\u a o excep\c tie s-a petrecut sau nu. Atunci când a avut loc o excep\c tie \^ in clauza \textit{try} \c si nu a fost prins\u a de nici o clauz\u a \textit{except} sau de clauza \textit{else}, aceast\u a eroare este rearuncat\u a dup\u a ce se termina execu\c tia clauzei \textit{finally}. Clauza \textit{finally} se execut\u a la ie\c tire atunci când oricare alt\u a clauz\u a a instruc\c tiunii \textit{try} for\c teaza ie\c sirea, prin \textit{break}, \textit{continue} sau \textit{return}. 
+	\item \^ in aplica\c tiile reale, clauza \textit{finally} se folose\c ste pentru a elibera resurse externe (fi\c siere, conexiuni la re\c tea sau la baze de date etc.).
+\end{itemize}
+
+\foilhead{Exemplu}
+Fie urmatorul script:
+\begin{verbatim}
+>>> def imparire(x, y):
+...     try:
+...         result = x / y
+...     except ZeroDivisionError:
+...         print "Imparire la zero!"
+...     else:
+...         print "Rezultatul este:", result
+...     finally:
+...         print "Se executa clauza 'finally'"
+\end{verbatim}
+
+\foilhead{Exemplu - continuare 1}
+Fie apelurile:
+\begin{verbatim}
+>>> imparire(2, 1)
+Rezultatul este: 2
+Se executa clauza 'finally'
+\end{verbatim}
+\begin{verbatim}
+>>> imparire(2, 0)
+Imparire la zero!
+Se executa clauza 'finally'
+\end{verbatim}
+
+\foilhead{Exemplu - continuare 2}
+\begin{verbatim}
+>>> imparire("2", "1")
+Se executa clauza 'finally'
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "<stdin>", line 3, in divide
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+\end{verbatim}
+\indent Dup\u a cum se observ\u a, clauza \textit{finally} se execut\u a dup\u a fiecare eveniment.
+
+\foilhead{Ac\c tiuni Predefinite de Clean-Up}
+\indent Anumite obiecte definesc ac\c tiuni de clean-up standard, care se execut\u a atunci când un obiect nu mai este necesar, indiferent dac\u a opera\c tia care folosea acel obiect s-a \^ incheiat cu succes sau nu. De exemplu, consider\u am c\u a dorim s\u a deschidem un fisier \c si s\u a afis\u am con\c tinutul s\u au pe ecran:
+\begin{verbatim}
+for line in open("myfile.txt"):
+    print line
+\end{verbatim}
+
+\foilhead{Ac\c tiuni Predefinite de Clean-Up}
+\indent Problema acestui cod este c\u a las\u a fi\c sierul descis pentru o perioad\u a nedeterminat\u a de timp dup\u a ce codul s-a terminat de executat. Instruc\c tiunea \textit{with} permite obiectelor precum fi\c sierele s\u a fie folosite \^ in a\c sa fel \^ incât se asigur\u a c\u a sunt eliberate rapid \c si corect, de \^ indat\u a ce nu mai sunt folosite.
+\begin{verbatim}
+with open("myfile.txt") as f:
+    for line in f:
+        print line
+\end{verbatim}
+\indent Dup\u a ce instruc\c tiunea a fost executat\u a, fi\c sierul \textit{f} se \^ inchide mereu, chiar dac\u a a aparut vreo problem\u a \^ in timpul proces\u arii liniilor de cod. 
+\end{document}
